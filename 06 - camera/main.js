@@ -157,10 +157,17 @@ class Scene {
   }
 
   modelMatrix() {
-    this.angle += 0.005;
+    //this.angle += 0.005;
+
+    const angle_x = document.querySelector("#angulox").value;
+    const angle_y = document.querySelector("#anguloy").value;
+    const angle_z = document.querySelector("#anguloz").value;
+
     mat4.identity( this.model );
 
-    mat4.rotateY(this.model, this.model, this.angle);
+    mat4.rotateX(this.model, this.model, -angle_x);
+    mat4.rotateY(this.model, this.model, angle_y);
+    mat4.rotateZ(this.model, this.model, -angle_z);
     // [ cos(this.angle) 0 -sin(this.angle) 0, 
     //         0         1        0         0, 
     //   sin(this.angle) 0  cos(this.angle) 0, 
@@ -182,7 +189,7 @@ class Scene {
 
     this.delta += 0.0025;
     this.delta  = this.delta >= 1 ? 0 : this.delta; 
-    this.eye = vec3.fromValues(0, this.delta, this.delta);
+    this.eye = vec3.fromValues(0.0, 0.0, 0.0);
   
     mat4.lookAt(this.view, this.eye, this.at, this.up);
     // TODO: Tentar implementar as contas diretamente

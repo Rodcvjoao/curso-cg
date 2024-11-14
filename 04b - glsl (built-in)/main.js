@@ -67,7 +67,7 @@ class Scene {
   }
 
   draw(gl) {
-    this.translate += (this.translate < 0.5) ? 0.001 : -0.5;
+    //this.translate += (this.translate < 1.5) ? 0.001 : -2.5;
 
     gl.useProgram(this.program);
     gl.bindVertexArray(this.vaoLoc);
@@ -94,7 +94,7 @@ class Main {
   }
 
   draw() {
-    this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
+    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
     this.scene.draw(this.gl);

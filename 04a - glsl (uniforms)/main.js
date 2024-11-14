@@ -92,7 +92,7 @@ class Scene {
     gl.uniform1f(this.uniformSLoc, 0.5);
     gl.uniform4fv(this.uniformAmbLoc, [0.5, 0.5, 0.5, 1.0]);
 
-    gl.drawArrays(gl.TRIANGLES, 0, 9);
+    gl.drawArrays(gl.TRIANGLES, 0, this.coords.length / 4);
   }
 }
 
