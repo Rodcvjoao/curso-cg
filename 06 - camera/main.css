@@ -7,5 +7,17 @@ body {
     top: 10px;
     width: 1024;
     height: 768;
-    background-color: black;
+    background-color: rgb(0, 0, 0);
+}
+
+label {
+    font: 20px "Comic Sans MS";
+}
+
+label2 {
+    font: 20px "Impact";
+}
+
+label3 {
+    font: 20px "Times New Roman";
 }

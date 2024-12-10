@@ -7,7 +7,7 @@ out vec4 minhaColor;
 
 void main()
 {
-  minhaColor = vColor;
+  minhaColor = 0.75 * vColor;
 }`
 
 

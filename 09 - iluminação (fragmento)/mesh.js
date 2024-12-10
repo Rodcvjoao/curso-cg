@@ -59,7 +59,6 @@ export default class Mesh {
       ...[0.1, 0.0, 0.0, 1.0], // v1
       ...[0.1, 0.0, 0.1, 1.0], // v2
       ...[0.0, 0.0, 0.1, 1.0], // v3
-
       ...[0.0, 0.1, 0.0, 1.0], // v4
       ...[0.1, 0.1, 0.0, 1.0], // v5
       ...[0.1, 0.1, 0.1, 1.0], // v6
@@ -271,10 +270,7 @@ export default class Mesh {
     var normalsAttributeLocation = gl.getAttribLocation(this.program, "normal");
     const normalsBuffer = Shader.createBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(this.normals));
 
-    this.vaoLoc = Shader.createVAO(gl,
-      coordsAttributeLocation, coordsBuffer, 
-      colorsAttributeLocation, colorsBuffer, 
-      normalsAttributeLocation, normalsBuffer);
+    this.vaoLoc = Shader.createVAO(gl, coordsAttributeLocation, coordsBuffer, colorsAttributeLocation, colorsBuffer, normalsAttributeLocation, normalsBuffer);
 
     this.indicesLoc = Shader.createBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(this.indices));
   }  
