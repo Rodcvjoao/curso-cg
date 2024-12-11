@@ -1,27 +1,29 @@
 import Mesh from './mesh.js';
 import Camera from './camera.js';
+import Light from './light.js';
 
 class Scene {
   constructor(gl) {
     this.camera = new Camera(gl);
 
+    this.light = new Light();
+
     this.mesh = new Mesh(0.0);
   }
 
   async init(gl){
-    await this.mesh.init(gl);
+    await this.mesh.init(gl, this.light);
   }
 
   draw(gl){
     this.camera.updateCam();
+    this.light.updateLight();
     this.mesh.draw(gl, this.camera);
   }
 
   viewMatrix() {
     mat4.identity( this.view );
 
-    this.delta += 0.0025;
-    this.delta  = this.delta >= 1 ? 0 : this.delta; 
     this.eye = vec3.fromValues(0.0, 0.0, 0.0);
   
     mat4.lookAt(this.view, this.eye, this.at, this.up);

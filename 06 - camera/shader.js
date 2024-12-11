@@ -60,7 +60,7 @@ export default class Shader {
 
     if (colorAttribLoc != null && colorAttribLoc != undefined) {
       gl.enableVertexAttribArray(colorAttribLoc);
-      size = 3;
+      size = 4;
       type = gl.FLOAT;
       gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
       gl.vertexAttribPointer(colorAttribLoc, size, type, false, 0, 0);

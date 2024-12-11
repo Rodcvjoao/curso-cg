@@ -28,8 +28,11 @@ export default class Mesh {
     
         //data location
         this.vaoLoc = -1;
-        this.uModelViewLoc = -1;
         this.indicesLoc = -1;
+
+        this.uModelLoc = -1
+        this.uViewLoc = -1;
+        this.uProjectionLoc = -1;
     }
 
     async loadModel(model) {
@@ -54,9 +57,9 @@ export default class Mesh {
             this.indices.push(data[i+3]);
         }
 
-        const cor = [1.0, 1.0, 1.0, 1.0];
+        const cor = [0.0, 0.0, 0.0, 1.0];
 
-        for(let i = 0; i < data.length; i++){
+        for(let i = 0; i < nfaces; i++){
             this.colors.push(...cor);
         }
 
@@ -103,7 +106,9 @@ export default class Mesh {
     }
 
     createUniforms(gl) {
-        this.uModelViewLoc = gl.getUniformLocation(this.program, "u_modelView");
+        this.uModelLoc = gl.getUniformLocation(this.program, "u_model");
+        this.uViewLoc = gl.getUniformLocation(this.program, "u_view");
+        this.uProjectionLoc = gl.getUniformLocation(this.program, "u_projection");
     }
 
     async createVAO(gl) {
@@ -122,10 +127,12 @@ export default class Mesh {
         this.indicesLoc = Shader.createBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(this.indices));
     }
 
-    async init(gl) {
+    async init(gl, light) {
         this.createShaderProgram(gl);
         await this.createVAO(gl);
         this.createUniforms(gl);
+
+        light.createUniforms(gl, this.program);
     }
 
     modelMatrix() {
@@ -144,7 +151,7 @@ export default class Mesh {
         //         0         0        0         1]
         // * this.mat 
 
-        mat4.translate(this.model, this.model, [0.0, -0.2, 0.0]);
+        mat4.translate(this.model, this.model, [0.05, -0.2, 0.0]);
         // [1 0 0 -0.5, 0 1 0 -0.5, 0 0 1 -0.5, 0 0 0 1] * this.mat 
 
         mat4.scale(this.model, this.model, [3.0, 3.0, 3.0]);
@@ -157,18 +164,27 @@ export default class Mesh {
     
         // face culling
         gl.enable(gl.CULL_FACE);
-        gl.cullFace(gl.BACK);
+        gl.cullFace(gl.FRONT);
     
         gl.useProgram(this.program);
         gl.bindVertexArray(this.vaoLoc);
         
         this.modelMatrix();
         cam.updateViewMatrix();
+
+        const model = this.model;
+        const view = cam.getView();
+        const proj = cam.getProj();
     
-        mat4.identity(this.modelView);
-        mat4.mul(this.modelView, cam.getView(), this.model);
+//        mat4.identity(this.modelView);
+//        mat4.mul(this.modelView, cam.getView(), this.model);
     
-        gl.uniformMatrix4fv(this.uModelViewLoc, false, this.modelView);
+        gl.useProgram(this.program);
+        gl.uniformMatrix4fv(this.uModelLoc, false, model);
+        gl.uniformMatrix4fv(this.uViewLoc, false, view);
+        gl.uniformMatrix4fv(this.uProjectionLoc, false, proj);
+
+//        gl.uniformMatrix4fv(this.uModelViewLoc, false, this.modelView);
     
         gl.drawElements(gl.TRIANGLES, this.indices.length, gl.UNSIGNED_INT, 0);
     

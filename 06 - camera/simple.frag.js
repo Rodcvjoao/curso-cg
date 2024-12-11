@@ -3,11 +3,12 @@ export default
 precision highp float;
 
 in vec4 vColor;
-out vec4 minhaColor;
+
+out vec4 fColor;
 
 void main()
 {
-  minhaColor = 0.75 * vColor;
+  fColor =  vColor;
 }`
 
 

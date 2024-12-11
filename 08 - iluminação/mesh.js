@@ -210,7 +210,7 @@ export default class Mesh {
 
   draw(gl, cam) {
     // faces orientadas no sentido anti-horário
-    gl.frontFace(gl.CCW);
+    gl.frontFace(gl.CW);
 
     // face culling
     gl.enable(gl.CULL_FACE);
